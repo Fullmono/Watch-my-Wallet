@@ -2,54 +2,20 @@
     "appKeys": {
         "KEY_NEW_CATEGORY": 0
     },
-    "capabilities": [
-        "configurable"
-    ],
-    "companyName": "Pebble",
+    "companyName": "Fullmono",
     "longName": "Watch My Wallet",
     "projectType": "native",
     "resources": {
         "media": [
-            {
-                "compatibility": "2.7",
-                "file": "fonts/perfect-dos-vga.ttf",
-                "name": "FONT_PERFECT_DOS_48",
-                "type": "font"
-            },
-            {
-                "compatibility": "2.7",
-                "file": "fonts/perfect-dos-vga.ttf",
-                "name": "FONT_PERFECT_DOS_20",
-                "type": "font"
-            },
             {
                 "file": "images/background.png",
                 "name": "IMAGE_BACKGROUND",
                 "type": "png"
             },
             {
-                "file": "images/action_icon_minus.png",
-                "name": "action_icon_minus",
-                "type": "png"
-            },
-            {
-                "file": "images/action_icon_plus.png",
-                "name": "action_icon_plus",
-                "type": "png"
-            },
-            {
-                "file": "images/action_icon_refresh.png",
-                "name": "action_icon_refresh",
-                "type": "png"
-            },
-            {
-                "file": "images/action_icon_ok.png",
-                "name": "action_icon_ok",
-                "type": "png"
-            },
-            {
-                "file": "images/action_icon_list.png",
-                "name": "action_icon_list",
+                "file": "images/app_icon.png",
+                "menuIcon": true,
+                "name": "app_icon",
                 "type": "png"
             },
             {
@@ -58,22 +24,54 @@
                 "type": "png"
             },
             {
+                "file": "images/action_icon_refresh.png",
+                "name": "action_icon_refresh",
+                "type": "png"
+            },
+            {
+                "file": "images/action_icon_plus.png",
+                "name": "action_icon_plus",
+                "type": "png"
+            },
+            {
+                "file": "images/action_icon_ok.png",
+                "name": "action_icon_ok",
+                "type": "png"
+            },
+            {
+                "file": "images/action_icon_minus.png",
+                "name": "action_icon_minus",
+                "type": "png"
+            },
+            {
+                "file": "images/action_icon_list.png",
+                "name": "action_icon_list",
+                "type": "png"
+            },
+            {
                 "file": "images/action_icon_add.png",
                 "name": "action_icon_add",
                 "type": "png"
             },
             {
-                "file": "images/app_icon.png",
-                "menuIcon": true,
-                "name": "app_icon",
-                "type": "png"
+                "compatibility": "2.7",
+                "file": "fonts/perfect-dos-vga.ttf",
+                "name": "FONT_PERFECT_DOS_20",
+                "type": "font"
+            },
+            {
+                "compatibility": "2.7",
+                "file": "fonts/perfect-dos-vga.ttf",
+                "name": "FONT_PERFECT_DOS_48",
+                "type": "font"
             }
         ]
     },
+    "sdkVersion": "2",
     "shortName": "Watch My Wallet",
     "uuid": "74b97a90-c9d9-42e9-b617-e068d6f05040",
     "versionCode": 1,
-    "versionLabel": "1.0",
+    "versionLabel": "2.0",
     "watchapp": {
         "watchface": false
     }

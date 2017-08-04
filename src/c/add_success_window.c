@@ -61,21 +61,6 @@ static void destroy_ui(void) {
 float categories_values[6];
 float total;
 AppTimer *timer;
-
-#define KEY_CATEGORY_1_1 0
-#define KEY_CATEGORY_1_2 1
-#define KEY_CATEGORY_2_1 2
-#define KEY_CATEGORY_2_2 3
-#define KEY_CATEGORY_3_1 4
-#define KEY_CATEGORY_3_2 5
-#define KEY_CATEGORY_4_1 6
-#define KEY_CATEGORY_4_2 7
-#define KEY_CATEGORY_5_1 8
-#define KEY_CATEGORY_5_2 9
-#define KEY_CATEGORY_6_1 10
-#define KEY_CATEGORY_6_2 11
-#define KEY_TOTAL_1 12
-#define KEY_TOTAL_2 13
   
 void timer_callback(void *data) {
   hide_add_success_window(); 
@@ -92,21 +77,18 @@ static void click_config_provider(void *context) {
 static void handle_window_unload(Window* window) {  
   //Cancel timer
   app_timer_cancel(timer);
-  // Writing Data in Persistent Storage
-  persist_write_int(KEY_CATEGORY_1_1, (int)categories_values[0]);
-  persist_write_int(KEY_CATEGORY_1_2, (int)((categories_values[0]-floor(categories_values[0]))*100) );
-  persist_write_int(KEY_CATEGORY_2_1, (int)categories_values[1]);
-  persist_write_int(KEY_CATEGORY_2_2, (int)((categories_values[1]-floor(categories_values[1]))*100) );
-  persist_write_int(KEY_CATEGORY_3_1, (int)categories_values[2]);
-  persist_write_int(KEY_CATEGORY_3_2, (int)((categories_values[2]-floor(categories_values[2]))*100) );
-  persist_write_int(KEY_CATEGORY_4_1, (int)categories_values[3]);
-  persist_write_int(KEY_CATEGORY_4_2, (int)((categories_values[3]-floor(categories_values[3]))*100) );
-  persist_write_int(KEY_CATEGORY_5_1, (int)categories_values[4]);
-  persist_write_int(KEY_CATEGORY_5_2, (int)((categories_values[4]-floor(categories_values[4]))*100) );
-  persist_write_int(KEY_CATEGORY_6_1, (int)categories_values[5]);
-  persist_write_int(KEY_CATEGORY_6_2, (int)((categories_values[5]-floor(categories_values[5]))*100) );
-  persist_write_int(KEY_TOTAL_1, (int)total);
-  persist_write_int(KEY_TOTAL_2, (int)((total-floor(total))*100) );
+  
+     // Writing Data in Persistent Storage
+  persist_write_int(KEY_CATEGORY_1, (int)(categories_values[0]*100));
+    
+  app_log(APP_LOG_LEVEL_DEBUG, "add_succes.c", 84, "write %d", ((int) (categories_values[0]*100)));
+  persist_write_int(KEY_CATEGORY_2, (int)(categories_values[1]*100));
+  persist_write_int(KEY_CATEGORY_3, (int)(categories_values[2]*100));
+  persist_write_int(KEY_CATEGORY_4, (int)(categories_values[3]*100));
+  persist_write_int(KEY_CATEGORY_5, (int)(categories_values[4]*100));
+  persist_write_int(KEY_CATEGORY_6, (int)(categories_values[5]*100));
+  persist_write_int(KEY_TOTAL, (int)(total*100));
+  
   // Destroy UI
   destroy_ui();
 }
@@ -120,25 +102,26 @@ void show_add_success_window(float add_value_param, int category) {
   window_set_click_config_provider(s_window, click_config_provider);
   
   // Reading Data From Persistent Storage
-  categories_values[0] = (float)persist_read_int(KEY_CATEGORY_1_1) + ((float)persist_read_int(KEY_CATEGORY_1_2)/100);
-  categories_values[1] = (float)persist_read_int(KEY_CATEGORY_2_1) + ((float)persist_read_int(KEY_CATEGORY_2_2)/100);
-  categories_values[2] = (float)persist_read_int(KEY_CATEGORY_3_1) + ((float)persist_read_int(KEY_CATEGORY_3_2)/100);
-  categories_values[3] = (float)persist_read_int(KEY_CATEGORY_4_1) + ((float)persist_read_int(KEY_CATEGORY_4_2)/100);
-  categories_values[4] = (float)persist_read_int(KEY_CATEGORY_5_1) + ((float)persist_read_int(KEY_CATEGORY_5_2)/100);
-  categories_values[5] = (float)persist_read_int(KEY_CATEGORY_6_1) + ((float)persist_read_int(KEY_CATEGORY_6_2)/100);
-  total = (float)persist_read_int(KEY_TOTAL_1) + ((float)persist_read_int(KEY_TOTAL_2)/100);
+    // Reading Data From Persistent Storage
+  categories_values[0] = ((float)persist_read_int(KEY_CATEGORY_1))/100;
+  categories_values[1] = ((float)persist_read_int(KEY_CATEGORY_2))/100;
+  categories_values[2] = ((float)persist_read_int(KEY_CATEGORY_3))/100;
+  categories_values[3] = ((float)persist_read_int(KEY_CATEGORY_4))/100;
+  categories_values[4] = ((float)persist_read_int(KEY_CATEGORY_5))/100;
+  categories_values[5] = ((float)persist_read_int(KEY_CATEGORY_6))/100;
+  total = ((float)(persist_read_int(KEY_TOTAL)))/100;
   
   total+=add_value_param;
   categories_values[category]+=add_value_param;
   
   // Load categories
   static char categories[6][32];
-  snprintf(categories[0], sizeof(categories[0]), "%s", "Drinks and food");
-  snprintf(categories[1], sizeof(categories[1]), "%s", "Entertainment");
-  snprintf(categories[2], sizeof(categories[2]), "%s", "Health Care");
-  snprintf(categories[3], sizeof(categories[3]), "%s", "Travel");
-  snprintf(categories[4], sizeof(categories[4]), "%s", "Clothes and supplies");
-  snprintf(categories[5], sizeof(categories[5]), "%s", "Uncategorized");
+  snprintf(categories[0], sizeof(categories[0]), "%s", "Nourriture");
+  snprintf(categories[1], sizeof(categories[1]), "%s", "Sorties");
+  snprintf(categories[2], sizeof(categories[2]), "%s", "Hardware");
+  snprintf(categories[3], sizeof(categories[3]), "%s", "Voyage");
+  snprintf(categories[4], sizeof(categories[4]), "%s", "Frais fixes");
+  snprintf(categories[5], sizeof(categories[5]), "%s", "Hors catégories");
   
   static char add_value_char[16];
   ftoa(add_value_char, add_value_param, 2);
@@ -146,6 +129,7 @@ void show_add_success_window(float add_value_param, int category) {
 //   APP_LOG(APP_LOG_LEVEL_INFO, categories[category]);
   text_layer_set_text(s_textlayer_1, add_value_char);
   text_layer_set_text(s_textlayer_3, categories[category]);
+
   
   // Show the Window on the watch
   window_stack_push(s_window, true);

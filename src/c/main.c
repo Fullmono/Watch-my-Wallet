@@ -4,21 +4,6 @@
 #include "add_window.h"
 #include "list_window.h"
   
-// Persist Mem keys
-#define KEY_CATEGORY_1_1 0
-#define KEY_CATEGORY_1_2 1
-#define KEY_CATEGORY_2_1 2
-#define KEY_CATEGORY_2_2 3
-#define KEY_CATEGORY_3_1 4
-#define KEY_CATEGORY_3_2 5
-#define KEY_CATEGORY_4_1 6
-#define KEY_CATEGORY_4_2 7
-#define KEY_CATEGORY_5_1 8
-#define KEY_CATEGORY_5_2 9
-#define KEY_CATEGORY_6_1 10
-#define KEY_CATEGORY_6_2 11
-#define KEY_TOTAL_1 12
-#define KEY_TOTAL_2 13
   
 // AppMessage keys
 #define KEY_NEW_CATEGORY 0
@@ -101,33 +86,27 @@ static void main_window_unload(Window *window) {
 // Read data
 void read_data() {  
   // Reading Data From Persistent Storage
-  categories_values[0] = (float)persist_read_int(KEY_CATEGORY_1_1) + ((float)persist_read_int(KEY_CATEGORY_1_2)/100);
-  categories_values[1] = (float)persist_read_int(KEY_CATEGORY_2_1) + ((float)persist_read_int(KEY_CATEGORY_2_2)/100);
-  categories_values[2] = (float)persist_read_int(KEY_CATEGORY_3_1) + ((float)persist_read_int(KEY_CATEGORY_3_2)/100);
-  categories_values[3] = (float)persist_read_int(KEY_CATEGORY_4_1) + ((float)persist_read_int(KEY_CATEGORY_4_2)/100);
-  categories_values[4] = (float)persist_read_int(KEY_CATEGORY_5_1) + ((float)persist_read_int(KEY_CATEGORY_5_2)/100);
-  categories_values[5] = (float)persist_read_int(KEY_CATEGORY_6_1) + ((float)persist_read_int(KEY_CATEGORY_6_2)/100);
-  total = (float)persist_read_int(KEY_TOTAL_1) + ((float)persist_read_int(KEY_TOTAL_2)/100);
+  categories_values[0] = ((float)persist_read_int(KEY_CATEGORY_1))/100;
+  categories_values[1] = ((float)persist_read_int(KEY_CATEGORY_2))/100;
+  categories_values[2] = ((float)persist_read_int(KEY_CATEGORY_3))/100;
+  categories_values[3] = ((float)persist_read_int(KEY_CATEGORY_4))/100;
+  categories_values[4] = ((float)persist_read_int(KEY_CATEGORY_5))/100;
+  categories_values[5] = ((float)persist_read_int(KEY_CATEGORY_6))/100;
+  total = ((float)(persist_read_int(KEY_TOTAL)))/100;
 }
 
 // Write data
 void write_data() {    
   // Writing Data in Persistent Storage
-  persist_write_int(KEY_CATEGORY_1_1, (int)categories_values[0]);
-  persist_write_int(KEY_CATEGORY_1_2, (int)((categories_values[0]-floor(categories_values[0]))*100) );
-  persist_write_int(KEY_CATEGORY_2_1, (int)categories_values[1]);
-  persist_write_int(KEY_CATEGORY_2_2, (int)((categories_values[1]-floor(categories_values[1]))*100) );
-  persist_write_int(KEY_CATEGORY_3_1, (int)categories_values[2]);
-  persist_write_int(KEY_CATEGORY_3_2, (int)((categories_values[2]-floor(categories_values[2]))*100) );
-  persist_write_int(KEY_CATEGORY_4_1, (int)categories_values[3]);
-  persist_write_int(KEY_CATEGORY_4_2, (int)((categories_values[3]-floor(categories_values[3]))*100) );
-  persist_write_int(KEY_CATEGORY_5_1, (int)categories_values[4]);
-  persist_write_int(KEY_CATEGORY_5_2, (int)((categories_values[4]-floor(categories_values[4]))*100) );
-  persist_write_int(KEY_CATEGORY_6_1, (int)categories_values[5]);
-  persist_write_int(KEY_CATEGORY_6_2, (int)((categories_values[5]-floor(categories_values[5]))*100) );
-  persist_write_int(KEY_TOTAL_1, (int)total);
-  persist_write_int(KEY_TOTAL_2, (int)((total-floor(total))*100) );
+  persist_write_int(KEY_CATEGORY_1, (int)(categories_values[0]*100));
+  persist_write_int(KEY_CATEGORY_2, (int)(categories_values[1]*100));
+  persist_write_int(KEY_CATEGORY_3, (int)(categories_values[2]*100));
+  persist_write_int(KEY_CATEGORY_4, (int)(categories_values[3]*100));
+  persist_write_int(KEY_CATEGORY_5, (int)(categories_values[4]*100));
+  persist_write_int(KEY_CATEGORY_6, (int)(categories_values[5]*100));
+  persist_write_int(KEY_TOTAL, (int)(total*100));
 }
+
 
 // Display total
 void display_total() {  
@@ -156,13 +135,13 @@ void up_long_click_release_handler(ClickRecognizerRef recognizer, void *context)
 }
  
 void down_click_handler(ClickRecognizerRef recognizer, void *context) {
-  write_data();
+  write_data(categories_values, total);
   show_list_window(0.0);
 }
  
 void select_click_handler(ClickRecognizerRef recognizer, void *context) {
   APP_LOG(APP_LOG_LEVEL_INFO, "select_click_handler");
-  write_data();
+  write_data(categories_values, total);
   show_add_window();
 }
 
